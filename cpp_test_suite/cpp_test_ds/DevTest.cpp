@@ -1281,8 +1281,15 @@ void DevTest::read_Short_attr(Tango::Attribute &att)
 
 void DevTest::read_Long_attr(Tango::Attribute &att)
 {
-      	cout << "[DevTest::read_attr] attribute name Long_attr" << endl;
-      	att.set_value(&attr_long);
+    std::cout << "[DevTest::read_attr] attribute name Long_attr" << std::endl;
+    if (Long_attr_except)
+    {
+        Tango::Except::throw_exception(
+            "Long_attr_except",
+            "Test exception is enabled for this attribute",
+            "DevTest::read_Long_attr");
+    }
+    att.set_value(&attr_long);
 }
 
 void DevTest::read_Long64_attr(Tango::Attribute &att)
