@@ -1681,6 +1681,13 @@ bool Attribute::check_alarm()
 		return returned;
 	}
 
+// Skip alarm evaluation if no value for this attribute was provided during last read.
+
+	if (not get_value_flag())
+	{
+		return false;
+	}
+
 //
 // Get the monitor protecting device att config
 //
