@@ -2869,6 +2869,7 @@ void Attribute::delete_seq()
 
 	case Tango::DEV_LONG:
 		delete value.lg_seq;
+		value.lg_seq = Tango_nullptr;
 		break;
 
 	case Tango::DEV_LONG64:
