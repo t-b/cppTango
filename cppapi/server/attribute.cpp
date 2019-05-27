@@ -1683,7 +1683,7 @@ bool Attribute::check_alarm()
 
 // Skip alarm evaluation if no value for this attribute was provided during last read.
 
-	if (not get_value_flag())
+	if (!get_value_flag())
 	{
 		return false;
 	}
