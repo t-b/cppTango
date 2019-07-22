@@ -294,7 +294,7 @@ DeviceDataHistory &DeviceDataHistory::operator=(DeviceDataHistory &&rval)
 //
 //--------------------------------------------------------------------------
 
-ostream &operator<<(ostream &o_str, DeviceDataHistory &dh)
+ostream &operator<<(ostream &o_str, const DeviceDataHistory &dh)
 {
 
 //
@@ -353,7 +353,7 @@ ostream &operator<<(ostream &o_str, DeviceDataHistory &dh)
     }
     else
     {
-        o_str << static_cast<DeviceData &>(dh);
+        o_str << static_cast<const DeviceData &>(dh);
     }
 
     return o_str;
@@ -812,7 +812,7 @@ DeviceAttributeHistory &DeviceAttributeHistory::operator=(DeviceAttributeHistory
 //
 //--------------------------------------------------------------------------
 
-ostream &operator<<(ostream &o_str, DeviceAttributeHistory &dah)
+ostream &operator<<(ostream &o_str, const DeviceAttributeHistory &dah)
 {
 //
 // Print date
@@ -889,7 +889,7 @@ ostream &operator<<(ostream &o_str, DeviceAttributeHistory &dah)
         {
             o_str << "Tango error stack" << endl;
             o_str << "Severity = ";
-            switch (dah.err_list[i].severity)
+            switch (dah.err_list.in()[i].severity)
             {
                 case Tango::WARN :
                     o_str << "WARNING ";
@@ -908,9 +908,9 @@ ostream &operator<<(ostream &o_str, DeviceAttributeHistory &dah)
                     break;
             }
             o_str << endl;
-            o_str << "Error reason = " << dah.err_list[i].reason.in() << endl;
-            o_str << "Desc : " << dah.err_list[i].desc.in() << endl;
-            o_str << "Origin : " << dah.err_list[i].origin.in();
+            o_str << "Error reason = " << dah.err_list.in()[i].reason.in() << endl;
+            o_str << "Desc : " << dah.err_list.in()[i].desc.in() << endl;
+            o_str << "Origin : " << dah.err_list.in()[i].origin.in();
             if (i != nb_err - 1)
             {
                 o_str << endl;
@@ -921,7 +921,7 @@ ostream &operator<<(ostream &o_str, DeviceAttributeHistory &dah)
     {
         if (dah.quality != Tango::ATTR_INVALID)
         {
-            if (dah.is_empty() == true)
+            if (dah.is_empty_noexcept() == true)
             {
                 o_str << "No data in DeviceData object";
             }

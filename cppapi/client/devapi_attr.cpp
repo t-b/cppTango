@@ -1367,7 +1367,7 @@ DeviceAttribute::~DeviceAttribute()
 //
 //-----------------------------------------------------------------------------
 
-bool DeviceAttribute::is_empty()
+bool DeviceAttribute::is_empty() const
 {
     ext->ext_state.reset(isempty_flag);
 
@@ -1469,19 +1469,9 @@ bool DeviceAttribute::is_empty()
 //
 //-----------------------------------------------------------------------------
 
-int DeviceAttribute::get_type()
+int DeviceAttribute::get_type() const
 {
-    bool da_is_empty;
-
-    // reset is_empty exception flag to avoid throwing an exception
-    // during is_empty() call
-    bitset<DeviceAttribute::numFlags> bs = exceptions();
-    reset_exceptions(DeviceAttribute::isempty_flag);
-    da_is_empty = is_empty();
-    // restore is_empty exception flag
-    exceptions(bs);
-
-    if (da_is_empty)
+    if (is_empty_noexcept())
     {
         return DATA_TYPE_UNKNOWN;
     }
@@ -5680,7 +5670,7 @@ void DeviceAttribute::del_mem(int _data_type)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-ostream &operator<<(ostream &o_str,DeviceAttribute &da)
+ostream &operator<<(ostream &o_str, const DeviceAttribute &da)
 {
 
 	if (da.has_failed() == true)
@@ -5690,15 +5680,11 @@ ostream &operator<<(ostream &o_str,DeviceAttribute &da)
 	}
 	else
 	{
-		bitset<DeviceAttribute::numFlags> bs = da.exceptions();
-		da.reset_exceptions(DeviceAttribute::isempty_flag);
-		if (da.is_empty() == true)
+		if (da.is_empty_noexcept())
 		{
-			da.exceptions(bs);
 			o_str << "No data in DeviceAttribute object";
 			return o_str;
 		}
-		da.exceptions(bs);
 
 //
 // Print date
@@ -5828,6 +5814,18 @@ ostream &operator<<(ostream &o_str,DeviceAttribute &da)
 	}
 
 	return o_str;
+}
+
+bool DeviceAttribute::is_empty_noexcept() const
+{
+    try
+    {
+        return is_empty();
+    }
+    catch (Tango::WrongData&)
+    {
+        return true;
+    }
 }
 
 } // End of Tango namespace

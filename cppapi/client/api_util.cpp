@@ -1754,7 +1754,7 @@ void ApiUtil::print_error_message(const char *mess)
 //
 //-----------------------------------------------------------------------------------------------------------------
 
-ostream &operator<<(ostream &o_str, AttributeInfo &p)
+ostream &operator<<(ostream &o_str, const AttributeInfo &p)
 {
 
 
@@ -2065,7 +2065,7 @@ AttributeInfoEx &AttributeInfoEx::operator=(const AttributeConfig_5 *att_5)
 //
 //-----------------------------------------------------------------------------------------------------------------
 
-ostream &operator<<(ostream &o_str, AttributeInfoEx &p)
+ostream &operator<<(ostream &o_str, const AttributeInfoEx &p)
 {
 
 
@@ -2339,7 +2339,7 @@ ostream &operator<<(ostream &o_str, AttributeInfoEx &p)
 //
 //-----------------------------------------------------------------------------------------------------------------
 
-ostream &operator<<(ostream &o_str, PipeInfo &p)
+ostream &operator<<(ostream &o_str, const PipeInfo &p)
 {
 
 //

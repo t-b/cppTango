@@ -133,7 +133,7 @@ typedef struct _CommandInfo : public DevCommandInfo
 	Tango::DispLevel disp_level;    ///< The command display level
 
 /// @privatesection
-	friend ostream &operator<<(ostream &,_CommandInfo &);
+	friend ostream &operator<<(ostream &, const _CommandInfo &);
 	bool operator==(const _CommandInfo &);
 }CommandInfo;
 
@@ -206,7 +206,7 @@ typedef struct _AttributeInfo : public DeviceAttributeConfig
 	Tango::DispLevel disp_level;        ///< Display level
 
 /// @privatesection
-	friend ostream &operator<<(ostream &,_AttributeInfo &);
+	friend ostream &operator<<(ostream &, const _AttributeInfo &);
 	bool operator==(const _AttributeInfo &);
 }AttributeInfo;
 
@@ -344,7 +344,7 @@ typedef struct _AttributeInfoEx : public AttributeInfo
 	_AttributeInfoEx & operator=(const AttributeConfig_3 *);
 	_AttributeInfoEx & operator=(const AttributeConfig_5 *);
 
-	friend ostream &operator<<(ostream &,_AttributeInfoEx &);
+	friend ostream &operator<<(ostream &, const _AttributeInfoEx &);
 	bool operator==(const _AttributeInfoEx &);
 }AttributeInfoEx;
 
@@ -377,7 +377,7 @@ typedef struct _PipeInfo
 	vector<string> 			extensions;         ///< For future extensions
 
 ///@privatesection
-	friend ostream &operator<<(ostream &,_PipeInfo &);
+	friend ostream &operator<<(ostream &, const _PipeInfo &);
 //	bool operator==(const _PipeInfo &);
 }PipeInfo;
 
@@ -576,7 +576,7 @@ public :
  * @param [in] str The printing stream
  * @param [in] ddh The instance to be printed
  */
-	friend ostream &operator<<(ostream &str,DeviceDataHistory &ddh);
+	friend ostream &operator<<(ostream &str, const DeviceDataHistory &ddh);
 
 ///@privatesection
 // Three following methods for compatibility with older release
@@ -682,7 +682,7 @@ public :
  * @param [in] str The printing stream
  * @param [in] dah The instance to be printed
  */
- 	friend ostream &operator<<(ostream &str,DeviceAttributeHistory &dah);
+	friend ostream &operator<<(ostream &str, const DeviceAttributeHistory &dah);
 
 ///@privatesection
 // Three following methods for compatibility with older release

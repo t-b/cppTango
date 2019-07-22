@@ -156,21 +156,21 @@ DevicePipeBlob &operator>>(DevicePipeBlob &_dp,DataElement<T> &datum)
 //-------------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-ostream &operator<<(ostream &str,DataElement<T> &dd)
+ostream &operator<<(ostream &str, const DataElement<T> &dd)
 {
 	str << "Name = " << dd.name << " - Value = " << dd.value;
 	return str;
 }
 
 template <>
-ostream &operator<<(ostream &str,DataElement<DevString> &dd)
+ostream &operator<<(ostream &str, const DataElement<DevString> &dd)
 {
 	str << "Name = " << dd.name << " - Value = " << dd.value;
 	return str;
 }
 
 template <typename T>
-ostream &operator<<(ostream &str,DataElement<vector<T> > &dd)
+ostream &operator<<(ostream &str, const DataElement<vector<T> > &dd)
 {
 	str << "Name = " << dd.name << " - Value = ";
 	for (size_t loop = 0;loop < dd.value.size();loop++)
@@ -183,7 +183,7 @@ ostream &operator<<(ostream &str,DataElement<vector<T> > &dd)
 }
 
 template <typename T>
-ostream &operator<<(ostream &str,DataElement<T *> &dd)
+ostream &operator<<(ostream &str, const DataElement<T *> &dd)
 {
 	str << "Name = " << dd.name << " - Value = ";
 	for (size_t loop = 0;loop < dd.value->length();loop++)
@@ -196,7 +196,7 @@ ostream &operator<<(ostream &str,DataElement<T *> &dd)
 }
 
 template <>
-ostream &operator<<(ostream &str,DataElement<DevicePipeBlob> &dd)
+ostream &operator<<(ostream &str, const DataElement<DevicePipeBlob> &dd)
 {
 	str << "Name = " << dd.name << "- Value = ";
 	dd.value.print(str,0,true);

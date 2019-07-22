@@ -5984,7 +5984,7 @@ void Attribute::remove_client_lib(int _l,const string &ev_name)
 //-------------------------------------------------------------------------------------------------------------------
 
 #ifndef TANGO_HAS_LOG4TANGO
-ostream &operator<<(ostream &o_str,Attribute &p)
+ostream &operator<<(ostream &o_str, const Attribute &p)
 {
 	Tango::AttributeConfig conf;
 

@@ -977,52 +977,52 @@ template Pipe &operator<<(Pipe &,DataElement<DevVarStateArray *> &);
 //-----------------------------------------------------------------------------
 
 
-template ostream &operator<<(ostream &,DataElement<DevBoolean> &);
-template ostream &operator<<(ostream &,DataElement<short> &);
-template ostream &operator<<(ostream &,DataElement<DevLong> &);
-template ostream &operator<<(ostream &,DataElement<DevLong64> &);
-template ostream &operator<<(ostream &,DataElement<float> &);
-template ostream &operator<<(ostream &,DataElement<double> &);
-template ostream &operator<<(ostream &,DataElement<DevUChar> &);
-template ostream &operator<<(ostream &,DataElement<DevUShort> &);
-template ostream &operator<<(ostream &,DataElement<DevULong> &);
-template ostream &operator<<(ostream &,DataElement<DevULong64> &);
-template ostream &operator<<(ostream &,DataElement<DevState> &);
+template ostream &operator<<(ostream &, const DataElement<DevBoolean> &);
+template ostream &operator<<(ostream &, const DataElement<short> &);
+template ostream &operator<<(ostream &, const DataElement<DevLong> &);
+template ostream &operator<<(ostream &, const DataElement<DevLong64> &);
+template ostream &operator<<(ostream &, const DataElement<float> &);
+template ostream &operator<<(ostream &, const DataElement<double> &);
+template ostream &operator<<(ostream &, const DataElement<DevUChar> &);
+template ostream &operator<<(ostream &, const DataElement<DevUShort> &);
+template ostream &operator<<(ostream &, const DataElement<DevULong> &);
+template ostream &operator<<(ostream &, const DataElement<DevULong64> &);
+template ostream &operator<<(ostream &, const DataElement<DevState> &);
 //template ostream &operator<<(ostream &,DataElement<DevEncoded> &);
-template ostream &operator<<(ostream &,DataElement<const string> &);
+template ostream &operator<<(ostream &, const DataElement<const string> &);
 
 #ifndef _TG_WINDOWS_
-template ostream &operator<<(ostream &,DataElement<DevString> &);
-template ostream &operator<<(ostream &,DataElement<DevicePipeBlob> &);
+template ostream &operator<<(ostream &, const DataElement<DevString> &);
+template ostream &operator<<(ostream &, const DataElement<DevicePipeBlob> &);
 #endif
 
-template ostream &operator<<(ostream &,DataElement<vector<DevBoolean> > &);
-template ostream &operator<<(ostream &,DataElement<vector<short> > &);
-template ostream &operator<<(ostream &,DataElement<vector<DevLong> > &);
-template ostream &operator<<(ostream &,DataElement<vector<DevLong64> > &);
-template ostream &operator<<(ostream &,DataElement<vector<float> > &);
-template ostream &operator<<(ostream &,DataElement<vector<double> > &);
-template ostream &operator<<(ostream &,DataElement<vector<DevUChar> > &);
-template ostream &operator<<(ostream &,DataElement<vector<DevUShort> > &);
-template ostream &operator<<(ostream &,DataElement<vector<DevULong> > &);
-template ostream &operator<<(ostream &,DataElement<vector<DevULong64> > &);
-template ostream &operator<<(ostream &,DataElement<vector<DevString> > &);
-template ostream &operator<<(ostream &,DataElement<vector<DevState> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<DevBoolean> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<short> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<DevLong> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<DevLong64> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<float> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<double> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<DevUChar> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<DevUShort> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<DevULong> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<DevULong64> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<DevString> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<DevState> > &);
 //template ostream &operator<<(ostream &,DataElement<vector<DevEncoded> > &);
-template ostream &operator<<(ostream &,DataElement<vector<string> > &);
+template ostream &operator<<(ostream &, const DataElement<vector<string> > &);
 
-template ostream &operator<<(ostream &,DataElement<DevVarBooleanArray *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarShortArray *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarLongArray *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarLong64Array *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarFloatArray *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarDoubleArray *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarUCharArray *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarUShortArray *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarULongArray *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarULong64Array *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarStringArray *> &);
-template ostream &operator<<(ostream &,DataElement<DevVarStateArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarBooleanArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarShortArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarLongArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarLong64Array *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarFloatArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarDoubleArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarUCharArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarUShortArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarULongArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarULong64Array *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarStringArray *> &);
+template ostream &operator<<(ostream &, const DataElement<DevVarStateArray *> &);
 //template ostream &operator<<(ostream &,DataElement<DevVarEncodedArray *> &);
 
 

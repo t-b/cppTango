@@ -2235,7 +2235,7 @@ void DevicePipeBlob::throw_mixing(const string &_meth)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DevicePipeBlob::print(ostream &o_str,int indent,bool insert_extract)
+void DevicePipeBlob::print(ostream &o_str,int indent,bool insert_extract) const
 {
 
 //
@@ -2414,7 +2414,7 @@ void DevicePipeBlob::print(ostream &o_str,int indent,bool insert_extract)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-ostream &operator<<(ostream &o_str,DevicePipe &dd)
+ostream &operator<<(ostream &o_str, const DevicePipe &dd)
 {
 
 //
@@ -2445,7 +2445,7 @@ ostream &operator<<(ostream &o_str,DevicePipe &dd)
 // Print blob
 //
 
-	DevicePipeBlob &dpb = dd.get_root_blob();
+	const DevicePipeBlob& dpb = dd.get_root_blob();
 	if (dpb.get_insert_data() == Tango_nullptr && dpb.get_extract_data() == Tango_nullptr)
 		o_str << "DevicePipe is empty";
 	else
