@@ -1,6 +1,12 @@
 include(FindPkgConfig)
 include(FindDoxygen)
 include(GNUInstallDirs)
+include(CheckIncludeFileCXX)
+
+# TODO
+# - create separate files for zeromq, omniorb and pthread
+# - always search for the header and libraries and try_compile (maybe do some reading first!)
+# - don't define DYN/STA constants for windows
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -30,10 +36,6 @@ if(NOT TANGO_DEVICE_SERVER_PATH)
     set(TANGO_DEVICE_SERVER_PATH ${CMAKE_INSTALL_FULL_BINDIR})
 endif()
 
-if(CPPZMQ_BASE)
-    message("Using CPPZMQ_BASE=${CPPZMQ_BASE}")
-    include_directories(${CPPZMQ_BASE}/include)
-endif(CPPZMQ_BASE)
 
 if(IDL_BASE)
     message("Using IDL_BASEIDL_BASE=${IDL_BASE}")
@@ -48,7 +50,7 @@ if(OMNI_BASE)
     if(WIN32)
         set(OMNIIDL_PATH ${OMNI_BASE}/bin/x86_win32/)
         link_directories(${OMNI_BASE}/lib/x86_win32/)
-        include_directories($ENV{OMNI_BASE}/include)
+        include_directories(${OMNI_BASE}/include)
         if (CMAKE_BUILD_TYPE STREQUAL "Debug")
             set(OMNIORB_PKG_LIBRARIES_DYN "omniORB4_rtd.lib;omniDynamic4_rtd.lib;omnithread_rtd.lib;COS4_rtd.lib")
             set(OMNIORB_PKG_LIBRARIES_STA "omniORB4d.lib;omniDynamic4d.lib;omnithreadd.lib;COS4d.lib")
@@ -112,6 +114,37 @@ else(ZMQ_BASE)
     endif()
 endif(ZMQ_BASE)
 
+if(CPPZMQ_BASE)
+    message("Using CPPZMQ_BASE=${CPPZMQ_BASE}")
+    include_directories(${CPPZMQ_BASE}/include)
+    set(CMAKE_REQUIRED_INCLUDES ${CPPZMQ_BASE}/include)
+endif(CPPZMQ_BASE)
+
+CHECK_INCLUDE_FILE_CXX(zmq.hpp HAVE_ZMQ_HPP)
+if(NOT HAVE_ZMQ_HPP)
+    message(FATAL_ERROR "zmq.hpp include file not found. \n
+Please install cppzmq (https://github.com/zeromq/cppzmq) on your system and/or use \
+-DCPPZMQ_BASE=<cppzmq home folder> option to specify where zmq.hpp file is installed \
+(CMake will look for it under <CPPZMQ_BASE>/include and system include directories).")
+endif()
+
+set(CMAKE_TRY_COMPILE_CONFIGURATION Release)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+try_compile(TANGO_ZMQ ${CMAKE_BINARY_DIR}/test_cppzmq
+            SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq.cpp
+            CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${CPPZMQ_BASE}/include;${ZMQ_BASE}/include")
+
+if(NOT TANGO_ZMQ)
+  message(FATAL_ERROR "Could not compile a simple test program using cppzmq and libzmq")
+endif()
+
+try_compile(TANGO_ZMQ_HAS_DISCONNECT ${CMAKE_BINARY_DIR}/test_cppzmq_disconnect
+            SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq_disconnect.cpp
+            CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${CPPZMQ_BASE}/include;${ZMQ_BASE}/include")
+
+message(STATUS "Check if zmq::socket has a disconnect method: ${TANGO_ZMQ_HAS_DISCONNECT}")
+
 if(PTHREAD_WIN)
     message("Using PTHREAD_WIN=${PTHREAD_WIN}")
     add_definitions(-DHAVE_PTHREAD_NP_H)
@@ -125,34 +158,6 @@ if(PTHREAD_WIN)
         set(PTHREAD_WIN_PKG_LIBRARIES_STA "pthreadVC2-s.lib")
     endif()
 endif(PTHREAD_WIN)
-
-#####  Ensure zmq.hpp file is present #####
-include(CheckIncludeFileCXX)
-# set CMAKE_REQUIRED_INCLUDES to take the currently defined include directories into account when looking for zmq.hpp
-get_property(CMAKE_REQUIRED_INCLUDES DIRECTORY PROPERTY INCLUDE_DIRECTORIES)
-# Clear HAVE_ZMQ_HPP variable from the cache to force the check every time
-# Thanks to this, the user do not have to clear the CMake cache himself when using different -DCPPZMQ_BASE options
-unset(HAVE_ZMQ_HPP CACHE)
-CHECK_INCLUDE_FILE_CXX(zmq.hpp HAVE_ZMQ_HPP)
-if(NOT HAVE_ZMQ_HPP)
-    message(FATAL_ERROR "zmq.hpp include file not found. \n
-Please install cppzmq (https://github.com/zeromq/cppzmq) on your system and/or use \
--DCPPZMQ_BASE=<cppzmq home folder> option to specify where zmq.hpp file is installed \
-(CMake will look for it under <CPPZMQ_BASE>/include, <ZMQ_BASE>/include, \
-<OMNI_BASE>/include and system include directories).")
-endif()
-
-if(NOT WIN32)
-  try_compile(TANGO_ZMQ_HAS_DISCONNECT ${CMAKE_BINARY_DIR}/test_cppzmq_disconnect
-              SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq_disconnect.cpp
-              COMPILE_DEFINITIONS "-I ${CPPZMQ_BASE}/include -I ${ZMQ_BASE}/include"
-              LINK_LIBRARIES "${ZMQ_PKG_LIBRARIES}")
-
-  message(STATUS "Check if zmq::socket has a disconnect method: ${TANGO_ZMQ_HAS_DISCONNECT}")
-else()
-  set(TANGO_ZMQ_HAS_DISCONNECT TRUE)
-  message(STATUS "Check if zmq::socket has a disconnect method: ${TANGO_ZMQ_HAS_DISCONNECT} (hardcoded)")
-endif(NOT WIN32)
 
 message("Verifying ${OMNIIDL_PATH}omniidl")
 if(WIN32)
