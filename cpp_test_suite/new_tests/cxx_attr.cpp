@@ -122,6 +122,24 @@ public:
 		TS_ASSERT(str == "test_string");
 	}
 
+	void test_read_and_write_invalid_attribute(void)
+	{
+		DeviceAttribute double_attr;
+		DevDouble db;
+
+		DeviceAttribute value("Double_attr_w", 3.2);
+		value.quality = Tango::ATTR_INVALID;
+		TS_ASSERT_THROWS_NOTHING(device1->write_attribute(value));
+
+		TS_ASSERT_THROWS_NOTHING(double_attr = device1->read_attribute("Double_attr_w"));
+		TS_ASSERT_EQUALS(double_attr.get_name(), "Double_attr_w");
+		TS_ASSERT_EQUALS(double_attr.get_quality(), Tango::ATTR_VALID); // FIXME should be ATTR_INVALID
+		TS_ASSERT_EQUALS(double_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(double_attr.get_dim_y(), 0);
+		TS_ASSERT(double_attr >> db);
+		TS_ASSERT_EQUALS(db, 3.2);
+	}
+
 // Test several SCALAR attributes in one call
 
 	void test_several_SCALAR_attributes_in_one_call(void)
